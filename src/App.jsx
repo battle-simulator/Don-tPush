@@ -25,15 +25,27 @@ const Button = styled.button`
   border: none;
   border-radius: 5px;
   margin-top: 20px;
+  transition: 0.3s;
 
   &:hover {
     background-color: #e05a4f;
+    transform: scale(1.05);
   }
 `;
 
 const Celebration = styled.div`
   font-size: 3rem;
   margin-top: 30px;
+  animation: bounce 0.5s infinite alternate;
+
+  @keyframes bounce {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-10px);
+    }
+  }
 `;
 
 function App() {
@@ -43,9 +55,13 @@ function App() {
   const handleClick = () => {
     setClickCount(prevCount => {
       const newCount = prevCount + 1;
-
-      if (newCount === 10) {
-        setMessage('축하합니다! 아무 일도 안 일어났습니다!');
+      
+      if (newCount === 100) {
+        setMessage('축하합니다! 100번을 눌렀습니다! 🎊 대박 이벤트!');
+      } else if (newCount > 100) {
+        setMessage(`100번 넘었다! 뭔가 더 있을지도...? 🤔 (${newCount}회 클릭)`);
+      } else if (newCount % 10 === 0) {
+        setMessage(`${newCount}번 눌렀어요! 계속 누르면 무슨 일이 생길까요?`);
       } else {
         setMessage(`진짜 눌러버렸네? ${newCount}번째!`);
       }
@@ -58,8 +74,7 @@ function App() {
     <AppContainer>
       <Title>{message}</Title>
       <Button onClick={handleClick}>버튼 누르기</Button>
-      {clickCount === 20 && <Celebration>🎉</Celebration>}
-      {clickCount === 30 && <Celebration>🎉</Celebration>}
+      {clickCount === 100 && <Celebration>🎆🎇🎉</Celebration>}
     </AppContainer>
   );
 }
